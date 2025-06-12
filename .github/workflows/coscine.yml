@@ -49,18 +49,23 @@ jobs:
       - name: Install requirements
         working-directory: ./coscine-static-site-generator/
         run: pip install -r requirements.txt
-
+    
       - name: Build static site and generate navigation tabs
-        working-directory: ./coscine-static-site-generator/
-        run: |
-          RESOURCE_NAMES=("Liver Imaging V8 S3")
-
-          # Generate static site for each resource
-          for RESOURCE in "${RESOURCE_NAMES[@]}"; do
-            echo "Processing resource: $RESOURCE"
-            mkdir -p ../public/$RESOURCE
-            python -m src -t "$COSCINE_API_TOKEN" -p "$COSCINE_SUBPROJECT_NAME" -r "$COSCINE_RESOURCE" -y -o ../public/"$RESOURCE"
-          done
+          working-directory: ./coscine-static-site-generator/
+          run: |
+            RESOURCE_NAMES=("Liver Imaging V8 S3")
+        
+            for RESOURCE in "${RESOURCE_NAMES[@]}"; do
+              echo "Processing resource: $RESOURCE"
+              mkdir -p ../public/"$RESOURCE"
+              python -m src \
+                -t "$COSCINE_API_TOKEN" \
+                -p "$PROJECT_NAME" \
+                -r "$RESOURCE" \
+                --toplevel True \
+                -y \
+                -o ../public/"$RESOURCE"
+            done
           
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3.0.1
