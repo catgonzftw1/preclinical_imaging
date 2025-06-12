@@ -22,7 +22,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      PROJECT_NAME: ${{ vars.COSCINE_PROJECT_NAME }}
+      PROJECT_NAME: ${{ vars.COSCINE_SUBPROJECT_NAME }}
       COSCINE_API_TOKEN: ${{ secrets.COSCINE_API_TOKEN }} 
     steps:
       - name: Check Python version
@@ -59,7 +59,7 @@ jobs:
           for RESOURCE in "${RESOURCE_NAMES[@]}"; do
             echo "Processing resource: $RESOURCE"
             mkdir -p ../public/$RESOURCE
-            python -m src -t "$COSCINE_API_TOKEN" -p "$PROJECT_NAME" -r "$RESOURCE" -y -o ../public/"$RESOURCE"
+            python -m src -t "$COSCINE_API_TOKEN" -p "$COSCINE_SUBPROJECT_NAME" -r "$COSCINE_RESOURCE" -y -o ../public/"$RESOURCE"
           done
           
       - name: Upload artifact
