@@ -58,7 +58,7 @@ jobs:
           for RESOURCE in "${RESOURCE_NAMES[@]}"; do
             echo "Processing resource: $RESOURCE"
             mkdir -p ../public/"$RESOURCE"
-            python -m src -t "$COSCINE_API_TOKEN" -p "$PROJECT_NAME" -r "$RESOURCE" -y -o ../public/"$RESOURCE"
+            python -m src -t "$COSCINE_API_TOKEN" -p "$PROJECT_NAME" -r "$RESOURCE" -y -o ../public/"$RESOURCE" --toplevel=False
           done
         
       - name: Upload artifact
