@@ -56,8 +56,10 @@ jobs:
           RESOURCE_NAMES=("Liver Imaging V8 S3")
       
           for RESOURCE in "${RESOURCE_NAMES[@]}"; do
-            echo "Processing resource: $RESOURCE"
-            mkdir -p ../public/"$RESOURCE"
+            # turn spaces into underscores:
+            SLUG=${RESOURCE// /_}
+            echo "Processing resource: $RESOURCE → $SLUG"
+            mkdir -p ../public/preclinical_imaging/"$SLUG"
             python -m src -t "$COSCINE_API_TOKEN" -p "$PROJECT_NAME" -r "$RESOURCE" -y -o ../public/"$RESOURCE" --subproject
           done
         
