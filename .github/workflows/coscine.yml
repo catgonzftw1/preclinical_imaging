@@ -59,8 +59,8 @@ jobs:
             # turn spaces into underscores:
             SLUG=${RESOURCE// /_}
             echo "Processing resource: $RESOURCE → $SLUG"
-            mkdir -p ../public/preclinical_imaging/"$SLUG"
-            python -m src -t "$COSCINE_API_TOKEN" -p "$PROJECT_NAME" -r "$RESOURCE" -y -o ../public/"$RESOURCE" --subproject
+            mkdir -p ../public/"$SLUG"
+            python -m src -t "$COSCINE_API_TOKEN" -p "$PROJECT_NAME" -r "$RESOURCE" -y -o ../public/"$SLUG" --subproject
           done
       
       - name: Debug build output
