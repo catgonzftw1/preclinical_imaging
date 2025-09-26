@@ -53,7 +53,7 @@ jobs:
       - name: Build static site and generate navigation tabs
         working-directory: ./coscine-static-site-generator/
         run: |
-          RESOURCE_NAMES=("Liver Imaging V8 S3")
+          RESOURCE_NAMES=("Liver Imaging V8 S3" "ISA-tab templates")
       
           for RESOURCE in "${RESOURCE_NAMES[@]}"; do
             # turn spaces into underscores:
