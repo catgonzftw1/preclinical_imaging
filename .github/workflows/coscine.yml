@@ -48,7 +48,32 @@ jobs:
 
       - name: Install requirements
         working-directory: ./coscine-static-site-generator/
-        run: pip install -r requirements.txt
+        run: python -m pip install -r requirements.txt
+
+      - name: Pin coscine SDK
+        working-directory: ./coscine-static-site-generator/
+        run: |
+          # Install the exact SDK version without pulling newer dependencies
+          python -m pip install --force-reinstall --no-deps coscine==0.11.12
+
+      - name: Re‑pin urllib3 and requests to compatible versions
+        working-directory: ./coscine-static-site-generator/
+        run: |
+          # Force‑install the versions that work with coscine 0.11.12, overriding any pre‑installed newer ones
+          python -m pip install --upgrade --force-reinstall urllib3==1.26.16 requests==2.31.0
+
+      - name: Clean workspace
+        run: |
+          echo "Cleaning workspace..."
+          rm -rf ./public
+          mkdir -p ./public
+
+      - name: Copy webpage
+        run: |
+          pwd
+          cp index.html public/
+          cp style.css public/
+          cp coscine_logo.gif public/
     
       - name: Build static site and generate navigation tabs
         working-directory: ./coscine-static-site-generator/
