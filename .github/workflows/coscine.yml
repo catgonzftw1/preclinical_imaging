@@ -78,24 +78,14 @@ jobs:
       - name: Build static site and generate navigation tabs
         working-directory: ./coscine-static-site-generator/
         run: |
-          set -euo pipefail
           RESOURCE_NAMES=("Liver Imaging V8 S3" "ISA-tab templates")
       
+          # Generate static site for each resource
           for RESOURCE in "${RESOURCE_NAMES[@]}"; do
-            # turn spaces into underscores:
-            SLUG=${RESOURCE// /_}
-            echo "Running: python -m src -t [TOKEN] -p $PROJECT_NAME -r \"$RESOURCE\" -y -o ../public/$SLUG --subproject"
-            python -m src -t "$COSCINE_API_TOKEN" -p "$PROJECT_NAME" -r "$RESOURCE" -y -o ../public/"$SLUG" --subproject || echo "⚠️ Failed for $RESOURCE"
-            ls -l ../public/"$SLUG" || echo "⚠️ No output for $RESOURCE"
-            ## echo "Processing resource: $RESOURCE → $SLUG"
-            ## mkdir -p ../public/"$SLUG"
-            ## python -m src -t "$COSCINE_API_TOKEN" -p "$PROJECT_NAME" -r "$RESOURCE" -y -o ../public/"$SLUG" --subproject
+            echo "Processing resource: $RESOURCE"
+            mkdir -p ../public/$RESOURCE
+            python -m src -t "$COSCINE_API_TOKEN" -p "$PROJECT_NAME" -r "$RESOURCE" -y -o ../public/"$RESOURCE"
           done
-      
-      - name: Debug build output
-        run: |
-          echo "🔍 Contents of public/:"
-          find public -maxdepth 3 | sed 's/^/   /'
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3.0.1
